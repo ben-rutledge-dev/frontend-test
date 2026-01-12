@@ -1,15 +1,12 @@
-import { customers } from '../database.js';
 import { Customer } from '../types.js';
-import { NetworkDelayEmulator } from '../NetworkDelayEmulator.js';
+import { customerExternalService } from '../external_services_mock/customerExternalService.js';
 
-const customerServiceImpl = {
+export const customerService = {
   getAllCustomers(): Customer[] {
-    return customers;
+    return customerExternalService.getAllCustomers();
   },
 
   getCustomerById(id: number): Customer | undefined {
-    return customers.find(c => c.id === id);
+    return customerExternalService.getCustomerById(id);
   },
 };
-
-export const customerService = NetworkDelayEmulator(customerServiceImpl);

@@ -1,10 +1,5 @@
-import { orders as orderData } from '../database.js';
 import { Order } from '../types.js';
-import { NetworkDelayEmulator } from '../NetworkDelayEmulator.js';
-
-function getOrders() {
-  return [...orderData].sort((a, b) => b.createdDate.localeCompare(a.createdDate));
-}
+import { orderExternalService } from '../external_services_mock/orderExternalService.js';
 
 interface PaginatedResult<T> {
   results: T[];
@@ -12,48 +7,28 @@ interface PaginatedResult<T> {
   hasPrevious: boolean;
 }
 
-const orderServiceImpl = {
+export const orderService = {
   getAllOrders(): Order[] {
-    return getOrders();
+    return orderExternalService.getAllOrders();
   },
 
   getOrderById(id: number): Order | undefined {
-    return orderData.find(o => o.id === id);
+    return orderExternalService.getOrderById(id);
   },
 
   getOrdersByCustomerId(customerId: number): Order[] {
-    return getOrders().filter(o => o.customerId === customerId);
+    return orderExternalService.getAllOrders().filter(o => o.customerId === customerId);
   },
 
   getPaginatedOrders(pageNumber: number = 1, pageSize: number = 10): PaginatedResult<Order> {
-    // Cap pageSize at 50
-    const cappedPageSize = Math.min(pageSize, 50);
-    
-    // Get sorted orders
-    const orders = getOrders();
-    
-    // Calculate pagination
-    const totalOrders = orders.length;
-    const startIndex = (pageNumber - 1) * cappedPageSize;
-    const endIndex = startIndex + cappedPageSize;
-    
-    // Get paginated results
-    const results = orders.slice(startIndex, endIndex);
-    
-    // Calculate hasNext and hasPrevious
-    const hasNext = endIndex < totalOrders;
-    const hasPrevious = pageNumber > 1;
-    
-    return {
-      results,
-      hasNext,
-      hasPrevious,
-    };
+    return orderExternalService.getPaginatedOrders(pageNumber, pageSize);
   },
 
   createOrder(customerId: number, vehicleId: number): Order {
+    const allOrders = orderExternalService.getAllOrders();
+    
     // Generate new order ID
-    const newId = Math.max(...orderData.map(o => o.id)) + 1;
+    const newId = Math.max(...allOrders.map(o => o.id)) + 1;
 
     // Generate reference in format YYYYMMDD-{id}
     const now = new Date();
@@ -70,11 +45,7 @@ const orderServiceImpl = {
       reference,
     };
 
-    // Add to orders array
-    orderData.push(newOrder);
-
-    return newOrder;
+    // Add to orders array via external service
+    return orderExternalService.createOrder(newOrder);
   },
 };
-
-export const orderService = NetworkDelayEmulator(orderServiceImpl);

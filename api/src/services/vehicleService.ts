@@ -1,19 +1,16 @@
-import { vehicles } from '../database.js';
 import { Vehicle } from '../types.js';
-import { NetworkDelayEmulator } from '../NetworkDelayEmulator.js';
+import { vehicleExternalService } from '../external_services_mock/vehicleExternalService.js';
 
-const vehicleServiceImpl = {
+export const vehicleService = {
   getAllVehicles(): Vehicle[] {
-    return vehicles;
+    return vehicleExternalService.getAllVehicles();
   },
 
   getVehicleById(id: number): Vehicle | undefined {
-    return vehicles.find(v => v.id === id);
+    return vehicleExternalService.getVehicleById(id);
   },
 
   getVehiclesByCustomerId(customerId: number): Vehicle[] {
-    return vehicles.filter(v => v.customerId === customerId);
+    return vehicleExternalService.getVehiclesByCustomerId(customerId);
   },
 };
-
-export const vehicleService = NetworkDelayEmulator(vehicleServiceImpl);

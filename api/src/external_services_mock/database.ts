@@ -1,4 +1,4 @@
-import { Customer, Vehicle, Order, Garage } from './types.js';
+import { Customer, Vehicle, Order, Garage } from '../types.js';
 
 // Sample customers data
 export const customers: Customer[] = [

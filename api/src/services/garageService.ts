@@ -1,15 +1,12 @@
-import { garages } from '../database.js';
 import { Garage } from '../types.js';
-import { NetworkDelayEmulator } from '../NetworkDelayEmulator.js';
+import { garageExternalService } from '../external_services_mock/garageExternalService.js';
 
-const garageServiceImpl = {
+export const garageService = {
   getAllGarages(): Garage[] {
-    return garages;
+    return garageExternalService.getAllGarages();
   },
 
   getGarageById(id: number): Garage | undefined {
-    return garages.find(g => g.id === id);
+    return garageExternalService.getGarageById(id);
   },
 };
-
-export const garageService = NetworkDelayEmulator(garageServiceImpl);
