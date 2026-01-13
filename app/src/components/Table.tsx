@@ -1,10 +1,17 @@
 import "./Table.css";
 
-export interface Column<T> {
+interface DataColumn<T> {
   key: keyof T;
   label: string;
   render?: (value: T[keyof T], row: T) => React.ReactNode;
 }
+
+interface ActionColumn<T> {
+  label: string;
+  render(value: T, row: T): React.ReactNode;
+}
+
+export type Column<T> = DataColumn<T> | ActionColumn<T>;
 
 interface TableProps<T> {
   data: T[];
@@ -18,7 +25,10 @@ function Table<T extends { id: number }>({ data, columns }: TableProps<T>) {
         <thead>
           <tr>
             {columns.map((column) => (
-              <th key={String(column.key)} className="th">
+              <th
+                key={"key" in column ? String(column.key) : "_actions"}
+                className="th"
+              >
                 {column.label}
               </th>
             ))}
@@ -29,10 +39,15 @@ function Table<T extends { id: number }>({ data, columns }: TableProps<T>) {
             data.map((row) => (
               <tr key={row.id} className="tr">
                 {columns.map((column) => (
-                  <td key={String(column.key)} className="td">
-                    {column.render
-                      ? column.render(row[column.key], row)
-                      : String(row[column.key])}
+                  <td
+                    key={"key" in column ? String(column.key) : "_actions"}
+                    className="td"
+                  >
+                    {"key" in column
+                      ? column.render
+                        ? column.render(row[column.key], row)
+                        : String(row[column.key])
+                      : column.render(row, row)}
                   </td>
                 ))}
               </tr>

@@ -18,6 +18,11 @@ export interface Vehicle {
   model: string;
 }
 
+export interface Garage {
+  id: number;
+  name: string;
+}
+
 export interface Order {
   id: number;
   customerId: number;
@@ -48,5 +53,10 @@ export const apiClient = {
   async getOrders() {
     const response = await axios.get(`${baseUrl}/orders`);
     return response.data as Order[];
-  }
+  },
+
+  async getGarages() {
+    const response = await axios.get(`${baseUrl}/garages`);
+    return response.data as Garage[];
+  },
 };

@@ -14,7 +14,8 @@ interface Filter {
   vehicleId?: number;
 }
 
-type OrderCreationRequest = Omit<Order, 'id' | 'createdDate' | 'reference'>;
+type CreateOrderRequest = Omit<Order, 'id' | 'createdDate' | 'reference'>;
+type UpdateOrderRequest = Omit<Order, 'createdDate' | 'reference'>;
 
 const getSortedOrders = (filter?: Filter): Order[] => {
   let filteredOrders = [...orders];
@@ -72,7 +73,7 @@ const orderExternalServiceImpl = {
     };
   },
 
-  createOrder(request: OrderCreationRequest): Order {
+  createOrder(request: CreateOrderRequest): Order {
     const newId = Math.max(...orders.map(o => o.id)) + 1;
     const createdDate = new Date().toISOString().split('T')[0];
     const reference = `${createdDate.replace(/-/g, '')}-${newId}`;
@@ -85,6 +86,19 @@ const orderExternalServiceImpl = {
     orders.push(order);
     return order;
   },
+
+  updateOrder(request: UpdateOrderRequest): Order {
+    const index = orders.findIndex(o => o.id === request.id);
+    if (index === -1) {
+      throw new Error(`Order with id ${request.id} not found`);
+    }
+    const updatedOrder: Order = {
+      ...orders[index],
+      ...request,
+    };
+    orders[index] = updatedOrder;
+    return updatedOrder;
+  }
 };
 
 export const orderExternalService = NetworkDelayEmulator(orderExternalServiceImpl);

@@ -19,15 +19,14 @@ function Customers() {
     fetchCustomers();
   }, []);
 
-  const columns = [
+  const columns: Column<CustomerWithVehicleCount>[] = [
     { key: "id", label: "ID" },
     { key: "firstName", label: "First Name" },
     { key: "lastName", label: "Last Name" },
     { key: "vehicleCount", label: "Vehicle Count" },
     {
-      key: "_actions",
       label: "Actions",
-      render: (_, row) => (
+      render: (row: CustomerWithVehicleCount) => (
         <Link
           to={`/customers/${row.id}`}
           style={{ color: "#0066cc", textDecoration: "underline" }}
@@ -36,7 +35,7 @@ function Customers() {
         </Link>
       ),
     },
-  ] as Column<CustomerWithVehicleCount>[];
+  ];
 
   return (
     <div>
