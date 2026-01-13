@@ -37,7 +37,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 // Start server
 const server = app.listen(PORT, () => {
-  console.log(`Mock API running on http://localhost:${PORT}`);
+  console.log(`API running on http://localhost:${PORT}`);
 });
 
 // Graceful shutdown handler
