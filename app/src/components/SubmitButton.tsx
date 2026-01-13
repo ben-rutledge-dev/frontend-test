@@ -1,22 +1,27 @@
-import { ButtonHTMLAttributes } from 'react';
-import styles from './SubmitButton.module.css';
+import { ButtonHTMLAttributes } from "react";
+import "./SubmitButton.css";
 
 interface SubmitButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   isLoading?: boolean;
 }
 
-function SubmitButton({ children, isLoading, disabled, ...props }: SubmitButtonProps) {
+function SubmitButton({
+  children,
+  isLoading,
+  disabled,
+  ...props
+}: SubmitButtonProps) {
   return (
     <button
       type="submit"
-      className={styles.submitBtn}
+      className="submitBtn"
       disabled={disabled || isLoading}
       {...props}
     >
       {isLoading ? (
-        <span className={styles.loading}>
-          <span className={styles.spinner}></span>
+        <span className="loading">
+          <span className="spinner"></span>
           Loading...
         </span>
       ) : (

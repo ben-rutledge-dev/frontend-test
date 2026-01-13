@@ -1,4 +1,4 @@
-import styles from "./Table.module.css";
+import "./Table.css";
 
 export interface Column<T> {
   key: keyof T;
@@ -11,14 +11,14 @@ interface TableProps<T> {
   columns: Column<T>[];
 }
 
-function Table<T extends {}>({ data, columns }: TableProps<T>) {
+function Table<T extends { id: number }>({ data, columns }: TableProps<T>) {
   return (
-    <div className={styles.tableWrapper}>
-      <table className={styles.table}>
+    <div className="tableWrapper">
+      <table className="table">
         <thead>
           <tr>
             {columns.map((column) => (
-              <th key={String(column.key)} className={styles.th}>
+              <th key={String(column.key)} className="th">
                 {column.label}
               </th>
             ))}
@@ -26,10 +26,10 @@ function Table<T extends {}>({ data, columns }: TableProps<T>) {
         </thead>
         <tbody>
           {data.length > 0 ? (
-            data.map((row, rowIndex) => (
-              <tr key={rowIndex} className={styles.tr}>
+            data.map((row) => (
+              <tr key={row.id} className="tr">
                 {columns.map((column) => (
-                  <td key={String(column.key)} className={styles.td}>
+                  <td key={String(column.key)} className="td">
                     {column.render
                       ? column.render(row[column.key], row)
                       : String(row[column.key])}
@@ -39,7 +39,7 @@ function Table<T extends {}>({ data, columns }: TableProps<T>) {
             ))
           ) : (
             <tr>
-              <td colSpan={columns.length} className={styles.noData}>
+              <td colSpan={columns.length} className="noData">
                 No data available
               </td>
             </tr>

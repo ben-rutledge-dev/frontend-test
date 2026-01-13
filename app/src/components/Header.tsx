@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
-import styles from "./Header.module.css";
+import "./Header.css";
 
 interface HeaderProps {
   children: ReactNode;
 }
 
 function Header({ children }: HeaderProps) {
-  return <div className={styles.pageHeader}>{children}</div>;
+  return <div className="pageHeader">{children}</div>;
 }
 
 export default Header;

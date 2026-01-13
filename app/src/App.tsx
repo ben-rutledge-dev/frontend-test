@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardList, faUsers } from "@fortawesome/free-solid-svg-icons";
 import Orders from "./pages/Orders";
 import Customers from "./pages/Customers";
+import CustomerDetail from "./pages/CustomerDetail";
 import "./App.css";
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <Routes>
             <Route path="/orders" element={<Orders />} />
             <Route path="/customers" element={<Customers />} />
+            <Route path="/customers/:id" element={<CustomerDetail />} />
             <Route path="/" element={<Orders />} />
           </Routes>
         </main>

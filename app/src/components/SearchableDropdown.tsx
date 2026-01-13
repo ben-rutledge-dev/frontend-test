@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-import styles from './SearchableDropdown.module.css';
+import { useState, useRef, useEffect } from "react";
+import "./SearchableDropdown.css";
 
 interface Option {
   value: string;
@@ -20,11 +20,11 @@ function SearchableDropdown({
   value,
   onChange,
   label,
-  placeholder = 'Search...',
+  placeholder = "Search...",
   error,
 }: SearchableDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const selectedOption = options.find((opt) => opt.value === value);
@@ -34,52 +34,55 @@ function SearchableDropdown({
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
-        setSearchTerm('');
+        setSearchTerm("");
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleSelect = (optionValue: string) => {
     onChange(optionValue);
     setIsOpen(false);
-    setSearchTerm('');
+    setSearchTerm("");
   };
 
   return (
-    <div className={styles.fieldWrapper} ref={wrapperRef}>
-      {label && <label className={styles.label}>{label}</label>}
-      <div className={styles.dropdown}>
+    <div className="fieldWrapper" ref={wrapperRef}>
+      {label && <label className="label">{label}</label>}
+      <div className="dropdown">
         <div
-          className={`${styles.dropdownToggle} ${error ? styles.dropdownError : ''}`}
+          className={`dropdownToggle ${error ? "dropdownError" : ""}`}
           onClick={() => setIsOpen(!isOpen)}
         >
-          <span className={selectedOption ? styles.selectedText : styles.placeholder}>
+          <span className={selectedOption ? "selectedText" : "placeholder"}>
             {selectedOption ? selectedOption.label : placeholder}
           </span>
-          <span className={styles.arrow}>{isOpen ? '▲' : '▼'}</span>
+          <span className="arrow">{isOpen ? "▲" : "▼"}</span>
         </div>
         {isOpen && (
-          <div className={styles.dropdownMenu}>
+          <div className="dropdownMenu">
             <input
               type="text"
-              className={styles.searchInput}
+              className="searchInput"
               placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onClick={(e) => e.stopPropagation()}
             />
-            <div className={styles.optionsList}>
+            <div className="optionsList">
               {filteredOptions.length > 0 ? (
                 filteredOptions.map((option) => (
                   <div
                     key={option.value}
-                    className={`${styles.option} ${
-                      option.value === value ? styles.optionSelected : ''
+                    className={`option ${
+                      option.value === value ? "optionSelected" : ""
                     }`}
                     onClick={() => handleSelect(option.value)}
                   >
@@ -87,13 +90,13 @@ function SearchableDropdown({
                   </div>
                 ))
               ) : (
-                <div className={styles.noOptions}>No options found</div>
+                <div className="noOptions">No options found</div>
               )}
             </div>
           </div>
         )}
       </div>
-      {error && <span className={styles.error}>{error}</span>}
+      {error && <span className="error">{error}</span>}
     </div>
   );
 }

@@ -6,10 +6,12 @@ const customerExternalServiceImpl = {
   getAllCustomers(): Customer[] {
     return customers;
   },
-
   getCustomerById(id: number): Customer | undefined {
     return customers.find(c => c.id === id);
   },
+  getCustomersById(ids: number[]): Customer[] {
+    return customers.filter(c => ids.includes(c.id));
+  }
 };
 
 export const customerExternalService = NetworkDelayEmulator(customerExternalServiceImpl);

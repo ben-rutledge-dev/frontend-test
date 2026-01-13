@@ -1,5 +1,5 @@
 import { ReactNode, ButtonHTMLAttributes } from "react";
-import styles from "./Button.module.css";
+import "./Button.css";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -7,10 +7,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 function Button({ children, variant = "primary", ...props }: ButtonProps) {
-  const variantClass =
-    variant === "primary" ? styles.btnPrimary : styles.btnSecondary;
+  const variantClass = variant === "primary" ? "btnPrimary" : "btnSecondary";
   return (
-    <button className={`${styles.btn} ${variantClass}`} {...props}>
+    <button className={`btn ${variantClass}`} {...props}>
       {children}
     </button>
   );

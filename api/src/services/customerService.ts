@@ -2,11 +2,11 @@ import { Customer } from '../types.js';
 import { customerExternalService } from '../external_services_mock/customerExternalService.js';
 
 export const customerService = {
-  getAllCustomers(): Customer[] {
+  async getAllCustomers(): Promise<Customer[]> {
     return customerExternalService.getAllCustomers();
   },
 
-  getCustomerById(id: number): Customer | undefined {
+  async getCustomerById(id: number): Promise<Customer | undefined> {
     return customerExternalService.getCustomerById(id);
   },
 };

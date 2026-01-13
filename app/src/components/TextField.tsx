@@ -1,5 +1,5 @@
-import { InputHTMLAttributes } from 'react';
-import styles from './TextField.module.css';
+import { InputHTMLAttributes } from "react";
+import "./TextField.css";
 
 interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -8,13 +8,10 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 
 function TextField({ label, error, ...props }: TextFieldProps) {
   return (
-    <div className={styles.fieldWrapper}>
-      {label && <label className={styles.label}>{label}</label>}
-      <input
-        className={`${styles.input} ${error ? styles.inputError : ''}`}
-        {...props}
-      />
-      {error && <span className={styles.error}>{error}</span>}
+    <div className="fieldWrapper">
+      {label && <label className="label">{label}</label>}
+      <input className={`input ${error ? "inputError" : ""}`} {...props} />
+      {error && <span className="error">{error}</span>}
     </div>
   );
 }

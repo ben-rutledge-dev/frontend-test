@@ -2,11 +2,11 @@ import { Garage } from '../types.js';
 import { garageExternalService } from '../external_services_mock/garageExternalService.js';
 
 export const garageService = {
-  getAllGarages(): Garage[] {
+  async getAllGarages(): Promise<Garage[]> {
     return garageExternalService.getAllGarages();
   },
 
-  getGarageById(id: number): Garage | undefined {
+  async getGarageById(id: number): Promise<Garage | undefined> {
     return garageExternalService.getGarageById(id);
   },
 };

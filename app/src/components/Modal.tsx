@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from "react";
-import styles from "./Modal.module.css";
+import "./Modal.css";
 
 interface ModalProps {
   children: ReactNode;
@@ -25,16 +25,16 @@ function Modal({ children, onClose }: ModalProps) {
   };
 
   return (
-    <div className={styles.backdrop} onClick={handleBackdropClick}>
-      <div className={styles.modal}>
+    <div className="backdrop" onClick={handleBackdropClick}>
+      <div className="modal">
         <button
-          className={styles.closeButton}
+          className="closeButton"
           onClick={onClose}
           aria-label="Close modal"
         >
           ×
         </button>
-        <div className={styles.content}>{children}</div>
+        <div className="content">{children}</div>
       </div>
     </div>
   );

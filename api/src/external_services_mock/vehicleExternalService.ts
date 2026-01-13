@@ -11,6 +11,10 @@ const vehicleExternalServiceImpl = {
     return vehicles.find(v => v.id === id);
   },
 
+  getVehiclesById(ids: number[]): Vehicle[] {
+    return vehicles.filter(v => ids.includes(v.id));
+  },
+
   getVehiclesByCustomerId(customerId: number): Vehicle[] {
     return vehicles.filter(v => v.customerId === customerId);
   },

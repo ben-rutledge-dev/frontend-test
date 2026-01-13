@@ -16,6 +16,7 @@ export interface Order {
   id: number;
   customerId: number;
   vehicleId: number;
+  garageId: number;
   createdDate: string;
   reference: string;
 }

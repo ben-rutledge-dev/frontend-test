@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
-import styles from "./Title.module.css";
+import "./Title.css";
 
 interface TitleProps {
   children: ReactNode;
 }
 
 function Title({ children }: TitleProps) {
-  return <h1 className={styles.pageTitle}>{children}</h1>;
+  return <h1 className="pageTitle">{children}</h1>;
 }
 
 export default Title;
