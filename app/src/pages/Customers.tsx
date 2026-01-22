@@ -20,11 +20,16 @@ function Customers() {
   }, []);
 
   const columns: Column<CustomerWithVehicleCount>[] = [
-    { key: "id", label: "ID" },
-    { key: "firstName", label: "First Name" },
-    { key: "lastName", label: "Last Name" },
-    { key: "vehicleCount", label: "Vehicle Count" },
+    { key: "id", label: "ID", render: (row) => row.id },
+    { key: "firstName", label: "First Name", render: (row) => row.firstName },
+    { key: "lastName", label: "Last Name", render: (row) => row.lastName },
     {
+      key: "vehicleCount",
+      label: "Vehicle Count",
+      render: (row) => row.vehicleCount,
+    },
+    {
+      key: "actions",
       label: "Actions",
       render: (row: CustomerWithVehicleCount) => (
         <Link

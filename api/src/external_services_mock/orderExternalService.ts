@@ -1,23 +1,9 @@
+import { v4 as uuidv4 } from 'uuid';
 import { orders } from './database.js';
-import { Order } from '../types.js';
+import { CreateOrderRequest, Order, OrderFilter, PaginatedResult, UpdateOrderRequest } from '../types.js';
 import { NetworkDelayEmulator } from './NetworkDelayEmulator.js';
 
-interface PaginatedResult<T> {
-  results: T[];
-  hasNext: boolean;
-  hasPrevious: boolean;
-}
-
-interface Filter {
-  garageId?: number;
-  customerId?: number;
-  vehicleId?: number;
-}
-
-type CreateOrderRequest = Omit<Order, 'id' | 'createdDate' | 'reference'>;
-type UpdateOrderRequest = Omit<Order, 'createdDate' | 'reference'>;
-
-const getSortedOrders = (filter?: Filter): Order[] => {
+const getSortedOrders = (filter?: OrderFilter): Order[] => {
   let filteredOrders = [...orders];
 
   if (filter) {
@@ -35,29 +21,28 @@ const getSortedOrders = (filter?: Filter): Order[] => {
     });
   }
 
-  return filteredOrders.sort((a, b) => b.reference.localeCompare(a.reference));
+  return filteredOrders.sort((a, b) => b.createdDate.localeCompare(a.createdDate));
 };
 
 const orderExternalServiceImpl = {
-  getAllOrders(filter?: Filter): Order[] {
+  getAllOrders(filter?: OrderFilter): Order[] {
     return getSortedOrders(filter);
   },
 
-  getOrderById(id: number): Order | undefined {
+  getOrderById(id: string): Order | undefined {
     return orders.find(o => o.id === id);
   },
 
-  getPaginatedOrders(pageNumber: number = 1, pageSize: number = 10, filter?: Filter): PaginatedResult<Order> {
-    // Cap pageSize at 50
-    const cappedPageSize = Math.min(pageSize, 50);
+  getPaginatedOrders(pageNumber: number = 1, filter?: OrderFilter): PaginatedResult<Order> {
+    const pageSize = 10;
     
     // Get sorted orders
     const sortedOrders = getSortedOrders(filter);
     
     // Calculate pagination
     const totalOrders = sortedOrders.length;
-    const startIndex = (pageNumber - 1) * cappedPageSize;
-    const endIndex = startIndex + cappedPageSize;
+    const startIndex = (pageNumber - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
     
     // Get paginated results
     const results = sortedOrders.slice(startIndex, endIndex);
@@ -74,7 +59,7 @@ const orderExternalServiceImpl = {
   },
 
   createOrder(request: CreateOrderRequest): Order {
-    const newId = Math.max(...orders.map(o => o.id)) + 1;
+    const newId = uuidv4();
     const createdDate = new Date().toISOString().split('T')[0];
     const reference = `${createdDate.replace(/-/g, '')}-${newId}`;
     const order: Order = {

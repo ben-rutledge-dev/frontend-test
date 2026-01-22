@@ -1,34 +1,28 @@
 import "./Table.css";
 
-interface DataColumn<T> {
-  key: keyof T;
-  label: string;
-  render?: (value: T[keyof T], row: T) => React.ReactNode;
+interface Row {
+  id: string;
 }
 
-interface ActionColumn<T> {
+export interface Column<T extends Row> {
+  key: string;
   label: string;
-  render(value: T, row: T): React.ReactNode;
+  render: (row: T) => React.ReactNode;
 }
 
-export type Column<T> = DataColumn<T> | ActionColumn<T>;
-
-interface TableProps<T> {
+interface TableProps<T extends Row> {
   data: T[];
   columns: Column<T>[];
 }
 
-function Table<T extends { id: number }>({ data, columns }: TableProps<T>) {
+function Table<T extends Row>({ data, columns }: TableProps<T>) {
   return (
     <div className="tableWrapper">
       <table className="table">
         <thead>
           <tr>
             {columns.map((column) => (
-              <th
-                key={"key" in column ? String(column.key) : "_actions"}
-                className="th"
-              >
+              <th key={String(column.key)} className="th">
                 {column.label}
               </th>
             ))}
@@ -39,15 +33,8 @@ function Table<T extends { id: number }>({ data, columns }: TableProps<T>) {
             data.map((row) => (
               <tr key={row.id} className="tr">
                 {columns.map((column) => (
-                  <td
-                    key={"key" in column ? String(column.key) : "_actions"}
-                    className="td"
-                  >
-                    {"key" in column
-                      ? column.render
-                        ? column.render(row[column.key], row)
-                        : String(row[column.key])
-                      : column.render(row, row)}
+                  <td key={String(column.key)} className="td">
+                    {column.render(row)}
                   </td>
                 ))}
               </tr>

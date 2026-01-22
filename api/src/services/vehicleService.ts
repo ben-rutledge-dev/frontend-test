@@ -6,11 +6,11 @@ export const vehicleService = {
     return vehicleExternalService.getAllVehicles();
   },
 
-  async getVehicleById(id: number): Promise<Vehicle | undefined> {
+  async getVehicleById(id: string): Promise<Vehicle | undefined> {
     return vehicleExternalService.getVehicleById(id);
   },
 
-  async getVehiclesByCustomerId(customerId: number): Promise<Vehicle[]> {
+  async getVehiclesByCustomerId(customerId: string): Promise<Vehicle[]> {
     return vehicleExternalService.getVehiclesByCustomerId(customerId);
   },
 };

@@ -27,11 +27,11 @@ router.get('/customers', async (req: Request, res: Response) => {
 
 // GET single customer by id
 router.get('/customers/:id', async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
+  const id = req.params.id;
   const customer = await customerService.getCustomerById(id);
   
   if (!customer) {
-    return res.status(500).json({ error: 'Customer not found' });
+    throw new Error('Customer not found');
   }
   
   res.json(customer);
@@ -39,7 +39,7 @@ router.get('/customers/:id', async (req: Request, res: Response) => {
 
 // GET vehicles by customer ID
 router.get('/customers/:id/vehicles', async (req: Request, res: Response) => {
-  const customerId = parseInt(req.params.id);
+  const customerId = req.params.id;
   const customerVehicles = await vehicleService.getVehiclesByCustomerId(customerId);
   res.json(customerVehicles);
 });
@@ -52,11 +52,11 @@ router.get('/orders', async (req: Request, res: Response) => {
 
 // GET single order by id
 router.get('/orders/:id', async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
+  const id = req.params.id;
   const order = await orderService.getOrderById(id);
   
   if (!order) {
-    return res.status(500).json({ error: 'Order not found' });
+    throw new Error('Order not found');
   }
   
   res.json(order);
@@ -64,7 +64,7 @@ router.get('/orders/:id', async (req: Request, res: Response) => {
 
 // GET orders by customer ID
 router.get('/customers/:id/orders', async (req: Request, res: Response) => {
-  const customerId = parseInt(req.params.id);
+  const customerId = req.params.id;
   const customerOrders = await orderService.getOrdersByCustomerId(customerId);
   res.json(customerOrders);
 });
@@ -77,11 +77,11 @@ router.get('/garages', async (req: Request, res: Response) => {
 
 // GET single garage by id
 router.get('/garages/:id', async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
+  const id = req.params.id;
   const garage = await garageService.getGarageById(id);
   
   if (!garage) {
-    return res.status(500).json({ error: 'Garage not found' });
+    throw new Error('Garage not found');
   }
   
   res.json(garage);

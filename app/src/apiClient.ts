@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export interface Customer {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
 }
@@ -11,25 +11,31 @@ export interface CustomerWithVehicleCount extends Customer {
 }
 
 export interface Vehicle {
-  id: number;
-  customerId: number;
+  id: string;
+  customerId: string;
   licensePlate: string;
   make: string;
   model: string;
 }
 
 export interface Garage {
-  id: number;
+  id: string;
   name: string;
 }
 
 export interface Order {
-  id: number;
-  customerId: number;
-  vehicleId: number;
-  garageId: number;
+  id: string;
+  customerId: string;
+  vehicleId: string;
+  garageId: string;
   createdDate: string;
   reference: string;
+}
+
+export interface PaginatedResult<T> {
+  results: T[];
+  hasNext: boolean;
+  hasPrevious: boolean;
 }
 
 const baseUrl = 'http://localhost:3001';
@@ -40,12 +46,12 @@ export const apiClient = {
     return response.data as CustomerWithVehicleCount[];
   },
 
-  async getCustomerById(id: number) {
+  async getCustomerById(id: string) {
     const response = await axios.get(`${baseUrl}/customers/${id}`);
     return response.data as Customer;
   },
 
-  async getVehiclesByCustomerId(customerId: number) {
+  async getVehiclesByCustomerId(customerId: string) {
     const response = await axios.get(`${baseUrl}/customers/${customerId}/vehicles`);
     return response.data as Vehicle[];
   },

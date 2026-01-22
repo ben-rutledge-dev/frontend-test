@@ -7,15 +7,15 @@ const vehicleExternalServiceImpl = {
     return vehicles;
   },
 
-  getVehicleById(id: number): Vehicle | undefined {
+  getVehicleById(id: string): Vehicle | undefined {
     return vehicles.find(v => v.id === id);
   },
 
-  getVehiclesById(ids: number[]): Vehicle[] {
+  getVehiclesById(ids: string[]): Vehicle[] {
     return vehicles.filter(v => ids.includes(v.id));
   },
 
-  getVehiclesByCustomerId(customerId: number): Vehicle[] {
+  getVehiclesByCustomerId(customerId: string): Vehicle[] {
     return vehicles.filter(v => v.customerId === customerId);
   },
 };

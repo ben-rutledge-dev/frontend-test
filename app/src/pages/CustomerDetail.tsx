@@ -14,13 +14,13 @@ function CustomerDetail() {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!id) return;
       try {
         setLoading(true);
-        const customerId = parseInt(id || "0");
 
         const [customerData, vehiclesData] = await Promise.all([
-          apiClient.getCustomerById(customerId),
-          apiClient.getVehiclesByCustomerId(customerId),
+          apiClient.getCustomerById(id),
+          apiClient.getVehiclesByCustomerId(id),
         ]);
 
         setCustomer(customerData);
@@ -38,12 +38,16 @@ function CustomerDetail() {
     }
   }, [id]);
 
-  const vehicleColumns = [
-    { key: "id", label: "ID" },
-    { key: "licensePlate", label: "License Plate" },
-    { key: "make", label: "Make" },
-    { key: "model", label: "Model" },
-  ] as Column<Vehicle>[];
+  const vehicleColumns: Column<Vehicle>[] = [
+    { key: "id", label: "ID", render: (row) => row.id },
+    {
+      key: "licensePlate",
+      label: "License Plate",
+      render: (row) => row.licensePlate,
+    },
+    { key: "make", label: "Make", render: (row) => row.make },
+    { key: "model", label: "Model", render: (row) => row.model },
+  ];
 
   if (loading) {
     return (

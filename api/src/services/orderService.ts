@@ -6,11 +6,11 @@ export const orderService = {
     return orderExternalService.getAllOrders();
   },
 
-  async getOrderById(id: number): Promise<Order | undefined> {
+  async getOrderById(id: string): Promise<Order | undefined> {
     return orderExternalService.getOrderById(id);
   },
 
-  async getOrdersByCustomerId(customerId: number): Promise<Order[]> {
+  async getOrdersByCustomerId(customerId: string): Promise<Order[]> {
     const allOrders = await orderExternalService.getAllOrders();
     return allOrders.filter(o => o.customerId === customerId);
   },

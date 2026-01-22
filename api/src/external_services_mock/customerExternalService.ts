@@ -6,10 +6,10 @@ const customerExternalServiceImpl = {
   getAllCustomers(): Customer[] {
     return customers;
   },
-  getCustomerById(id: number): Customer | undefined {
+  getCustomerById(id: string): Customer | undefined {
     return customers.find(c => c.id === id);
   },
-  getCustomersById(ids: number[]): Customer[] {
+  getCustomersById(ids: string[]): Customer[] {
     return customers.filter(c => ids.includes(c.id));
   }
 };

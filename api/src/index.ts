@@ -32,7 +32,7 @@ app.use((req: Request, res: Response) => {
 // Error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.status(500).json({ error: 'Internal server error' });
+  res.status(500).json({ error: err.message });
 });
 
 // Start server

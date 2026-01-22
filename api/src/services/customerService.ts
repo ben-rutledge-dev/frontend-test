@@ -6,7 +6,7 @@ export const customerService = {
     return customerExternalService.getAllCustomers();
   },
 
-  async getCustomerById(id: number): Promise<Customer | undefined> {
+  async getCustomerById(id: string): Promise<Customer | undefined> {
     return customerExternalService.getCustomerById(id);
   },
 };

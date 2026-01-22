@@ -7,7 +7,7 @@ const garageExternalServiceImpl = {
     return garages;
   },
 
-  getGarageById(id: number): Garage | undefined {
+  getGarageById(id: string): Garage | undefined {
     return garages.find(g => g.id === id);
   },
 };

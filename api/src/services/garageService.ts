@@ -6,7 +6,7 @@ export const garageService = {
     return garageExternalService.getAllGarages();
   },
 
-  async getGarageById(id: number): Promise<Garage | undefined> {
+  async getGarageById(id: string): Promise<Garage | undefined> {
     return garageExternalService.getGarageById(id);
   },
 };

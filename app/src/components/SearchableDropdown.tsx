@@ -1,15 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import "./SearchableDropdown.css";
 
-interface Option {
+export interface Option {
   value: string;
   label: string;
 }
 
-interface SearchableDropdownProps {
+interface Props {
+  optional?: boolean;
   options: Option[];
   value?: string;
-  onChange: (value: string) => void;
+  onChange: (value: string | undefined) => void;
   label?: string;
   placeholder?: string;
   error?: string;
@@ -22,7 +23,8 @@ function SearchableDropdown({
   label,
   placeholder = "Search...",
   error,
-}: SearchableDropdownProps) {
+  optional,
+}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -64,7 +66,20 @@ function SearchableDropdown({
           <span className={selectedOption ? "selectedText" : "placeholder"}>
             {selectedOption ? selectedOption.label : placeholder}
           </span>
-          <span className="arrow">{isOpen ? "▲" : "▼"}</span>
+          <span className="dropdownActions">
+            <span className="arrow">{isOpen ? "▲" : "▼"}</span>
+            {optional && value && (
+              <span
+                className="optionalRemove"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onChange(undefined);
+                }}
+              >
+                ✕
+              </span>
+            )}
+          </span>
         </div>
         {isOpen && (
           <div className="dropdownMenu">

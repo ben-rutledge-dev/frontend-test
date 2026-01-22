@@ -18,11 +18,19 @@ function Orders() {
   }, []);
 
   const orderColumns: Column<Order>[] = [
-    { key: "reference", label: "Reference" },
-    { key: "customerId", label: "Customer ID" },
-    { key: "vehicleId", label: "Vehicle ID" },
-    { key: "garageId", label: "Garage ID" },
-    { key: "createdDate", label: "Created Date" },
+    { key: "reference", label: "Reference", render: (row) => row.reference },
+    {
+      key: "customerId",
+      label: "Customer ID",
+      render: (row) => row.customerId,
+    },
+    { key: "vehicleId", label: "Vehicle ID", render: (row) => row.vehicleId },
+    { key: "garageId", label: "Garage ID", render: (row) => row.garageId },
+    {
+      key: "createdDate",
+      label: "Created Date",
+      render: (row) => row.createdDate,
+    },
   ];
 
   return (
