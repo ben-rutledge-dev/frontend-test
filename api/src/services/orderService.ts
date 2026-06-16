@@ -14,4 +14,8 @@ export const orderService = {
     const allOrders = await orderExternalService.getAllOrders();
     return allOrders.filter(o => o.customerId === customerId);
   },
+
+  async createOrder(order: Omit<Order, 'id' | 'createdDate'>): Promise<Order> {
+    return orderExternalService.createOrder(order);
+  },
 };
