@@ -61,6 +61,11 @@ export const apiClient = {
     return response.data as Order[];
   },
 
+  async postOrder(order: Omit<Order, 'id' | 'createdDate' | 'reference'>) {
+    const response = await axios.post(`${baseUrl}/orders`, order);
+    return response.data as Order;
+  },
+
   async getGarages() {
     const response = await axios.get(`${baseUrl}/garages`);
     return response.data as Garage[];
